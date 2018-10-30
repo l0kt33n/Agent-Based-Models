@@ -26,7 +26,7 @@ public class Aggregator implements Steppable {
 	@Override
 	public void step(SimState state) {
 		// TODO Auto-generated method stub
-		//randomizeMovement();
+		randomizeMovement();
 		move();
 		return;
 	}
@@ -34,7 +34,7 @@ public class Aggregator implements Steppable {
 		SparseGrid2D space = sim.acquireSpace();
 		int tempx = space.stx(x + dirx);
 		int tempy = space.stx(y + diry);
-		Bag b = space.getObjectsAtLocation(tempx, tempy);
+		//Bag b = space.getObjectsAtLocation(tempx, tempy);
 		if(aggregate(space, tempx, tempy)) {
 			frozen = true;
 			dirx = 0;
@@ -51,19 +51,21 @@ public class Aggregator implements Steppable {
 	
 	public boolean aggregate(SparseGrid2D space, int tempx, int tempy){
 		Bag b = space.getObjectsAtLocation(tempx, tempy);
-		if(b!=null)
-			return true;
-		else
+		if(b!=null) {
+			Aggregator nextObj = (Aggregator) b.objs[0];
+			if(nextObj.frozen==true)
+				return true;
+		}
 			return false;
 	}
 	
 	protected void randomizeMovement() {
 		if(this.frozen == false) {
-		if (sim.random.nextInt(100) > (sim.getP() * 100)){
+			if (sim.random.nextInt(100) > (sim.getP() * 100)){
 
-			dirx = sim.random.nextInt(3) - 1;
+				dirx = sim.random.nextInt(3) - 1;
 
-			diry = sim.random.nextInt(3) - 1;
+				diry = sim.random.nextInt(3) - 1;
 
 			}
 		}
