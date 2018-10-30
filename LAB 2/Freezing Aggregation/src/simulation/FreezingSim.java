@@ -25,8 +25,8 @@ public class FreezingSim extends SimStateSparseGrid2D {
         for (int i = 0; i < n - 1; i++) {
             int x = random.nextInt(gridWidth);
             int y = random.nextInt(gridHeight);
-            int xdir = random.nextInt(3) - 1;
-            int ydir = random.nextInt(3) - 1;
+            int xdir = random.nextInt(2) == 0? 1:-1;
+            int ydir = random.nextInt(2) == 0? 1:-1;
             a = new Aggregator(x, y, xdir, ydir, false, this);
             space.setObjectLocation(a, x, y);
             schedule.scheduleRepeating(a);
