@@ -21,7 +21,7 @@ public class FreezingSim extends SimStateSparseGrid2D {
     public void makeAgents() {
         Aggregator a = new Aggregator(x0, y0, 0, 0, true, this);
         space.setObjectLocation(a, x0, y0);
-        //schedule.scheduleRepeating(a);
+        schedule.scheduleRepeating(a);
         for (int i = 0; i < n - 1; i++) {
             int x = random.nextInt(gridWidth);
             int y = random.nextInt(gridHeight);
@@ -29,15 +29,15 @@ public class FreezingSim extends SimStateSparseGrid2D {
             int ydir = random.nextInt(3) - 1;
             a = new Aggregator(x, y, xdir, ydir, false, this);
             space.setObjectLocation(a, x, y);
-            //schedule.scheduleRepeating(a);
+            schedule.scheduleRepeating(a);
         }
         return;
     }
 
     public void start() {
         super.start();
-        makeAgents();
         makeSpace(gridWidth, gridHeight);
+        makeAgents();
         return;
     }
 
