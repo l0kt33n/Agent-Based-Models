@@ -26,7 +26,9 @@ public class Aggregator implements Steppable {
 	@Override
 	public void step(SimState state) {
 		// TODO Auto-generated method stub
-
+		//randomizeMovement();
+		move();
+		return;
 	}
 	protected void move() {
 		SparseGrid2D space = sim.acquireSpace();
