@@ -1,6 +1,6 @@
 package simulation;
 
-import agent.Aggregator;
+import agents.Aggregator;
 import states.SimStateSparseGrid2D;
 
 public class FreezingSim extends SimStateSparseGrid2D {
@@ -10,10 +10,11 @@ public class FreezingSim extends SimStateSparseGrid2D {
     int n = 500;
     int x0 = gridWidth / 2;
     int y0 = gridHeight / 2;
-    double p = 0.5;
+    double p = 0.1;
     boolean uniqueLocation = true;
-    boolean toroidal = true;
-
+    //boolean toroidal = true;
+    boolean bounded = false; 
+    // as both p and and n increase aggregation becomes faster
     public FreezingSim(long seed) {
         super(seed);
     }
@@ -23,11 +24,26 @@ public class FreezingSim extends SimStateSparseGrid2D {
         space.setObjectLocation(a, x0, y0);
         schedule.scheduleRepeating(a);
         for (int i = 0; i < n - 1; i++) {
-            int x = random.nextInt(gridWidth);
-            int y = random.nextInt(gridHeight);
-            int xdir = random.nextInt(2) == 0? 1:-1;
-            int ydir = random.nextInt(2) == 0? 1:-1;
-            a = new Aggregator(x, y, xdir, ydir, false, this);
+        	int x;
+        	int y;
+        	int xdir;
+        	int ydir;
+        	if(n==0)
+        	{
+        		 x = gridWidth/2;
+        		 y = gridHeight/2;
+        		 xdir =0;
+        		 ydir=0;
+
+        	}
+        	else
+        	{
+        		 x = random.nextInt(gridWidth);
+                 y = random.nextInt(gridHeight);
+                xdir = random.nextInt(3) - 1;
+                ydir = random.nextInt(3) - 1;
+        	}
+        	a = new Aggregator(x, y, xdir, ydir, false, this);
             space.setObjectLocation(a, x, y);
             schedule.scheduleRepeating(a);
         }
@@ -97,13 +113,11 @@ public class FreezingSim extends SimStateSparseGrid2D {
 		this.uniqueLocation = uniqueLocation;
 	}
 
-	public boolean isToroidal() {
-		return toroidal;
+	public boolean isBounded() {
+		return bounded;
 	}
 
-	public void setToroidal(boolean toroidal) {
-		this.toroidal = toroidal;
+	public void setBounded(boolean bounded) {
+		this.bounded = bounded;
 	}
 }
-
-
