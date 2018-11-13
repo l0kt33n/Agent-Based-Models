@@ -70,4 +70,72 @@ public class Aggregator implements Steppable {
 			}
 		}
 	}
+	
+	public double getDistanceFromCenter() {
+		double dx = (double)x - sim.getGridWidth()/2;
+		double dy = (double)y - sim.getGridHeight()/2;
+		return Math.sqrt(dx*dx+dy*dy);
+	}
+	
+	public int getNNeighbors() {
+		SparseGrid2D sp = sim.acquireSpace();
+		int mode = SparseGrid2D.BOUNDED;
+		if(sim.isBounded()) {
+			mode = SparseGrid2D.TOROIDAL;
+		}
+		Bag b = sp.getMooreNeighbors(x, y, 1, mode, true);
+		if (b==null) {
+			return 0;
+		}
+		return b.numObjs;
+		}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getDirx() {
+		return dirx;
+	}
+
+	public void setDirx(int dirx) {
+		this.dirx = dirx;
+	}
+
+	public int getDiry() {
+		return diry;
+	}
+
+	public void setDiry(int diry) {
+		this.diry = diry;
+	}
+
+	public boolean isFrozen() {
+		return frozen;
+	}
+
+	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
+	}
+
+	public FreezingSim getSim() {
+		return sim;
+	}
+
+	public void setSim(FreezingSim sim) {
+		this.sim = sim;
+	}
+	
 }
