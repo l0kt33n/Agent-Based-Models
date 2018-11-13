@@ -1,5 +1,6 @@
 package simulation;
 
+
 import agent.Aggregator;
 import agent.Observer;
 import states.SimStateSparseGrid2D;
@@ -11,7 +12,7 @@ public class FreezingSim extends SimStateSparseGrid2D {
     int n = 500;
     int x0 = gridWidth / 2;
     int y0 = gridHeight / 2;
-    double p = 0.5;
+    double p = 0.1;
     boolean uniqueLocation = true;
     //boolean toroidal = true;
     boolean bounded = false; 
@@ -128,6 +129,7 @@ public class FreezingSim extends SimStateSparseGrid2D {
 	public void setBounded(boolean bounded) {
 		this.bounded = bounded;
 	}
-	
+
 	
 }
+
