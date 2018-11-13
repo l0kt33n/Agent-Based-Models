@@ -16,7 +16,6 @@ public class FreezingSimGUI extends GUIStateSparseGrid2D {
 	public FreezingSimGUI(SimStateSparseGrid2D state, int gridWidth, int gridHeight, Color backdrop,
 			Color agentDefaultColor, boolean defaultPortrayal) {
 		super(state, gridWidth, gridHeight, backdrop, agentDefaultColor, defaultPortrayal);
-		// TODO Auto-generated constructor stub
 	}
 
 }

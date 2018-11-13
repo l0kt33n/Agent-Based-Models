@@ -1,8 +1,7 @@
 package simulation;
 
-
-import agent.Aggregator;
-import agent.Observer;
+import agents.Aggregator;
+import agents.Observer;
 import states.SimStateSparseGrid2D;
 
 public class FreezingSim extends SimStateSparseGrid2D {
@@ -56,16 +55,13 @@ public class FreezingSim extends SimStateSparseGrid2D {
         super.start();
         makeSpace(gridWidth, gridHeight);
         makeAgents();
-        makeObserver();
+        //makeObserver();
         return;
     }
-
-	private void makeObserver() {
-		Observer o = new Observer(this);
-		schedule.scheduleRepeating(0, 10, o);
-		return;
-	}
-
+    public void makeObserver() {
+    	Observer o = new Observer(this);
+    	schedule.scheduleRepeating(0,10,o);
+    }
 	public int getGridWidth() {
 		return gridWidth;
 	}
@@ -129,7 +125,4 @@ public class FreezingSim extends SimStateSparseGrid2D {
 	public void setBounded(boolean bounded) {
 		this.bounded = bounded;
 	}
-
-	
 }
-

@@ -1,4 +1,4 @@
-package agent;
+package agents;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;

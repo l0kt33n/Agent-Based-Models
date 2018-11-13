@@ -1,4 +1,5 @@
 package agents;
+
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.field.grid.Grid2D;
@@ -41,10 +42,10 @@ public class Aggregator implements Steppable {
 			{
 				if(sim.isBounded())
 				{
+					tempx = x-dirx;
+					tempy = y-dirx;
 					dirx = -dirx;
 					diry = -diry;
-					tempx = x+dirx;
-					tempy = y+dirx;
 				}
 				else
 				{
@@ -114,7 +115,6 @@ public class Aggregator implements Steppable {
 			}
 		}
 	}
-	
 	public double getDistanceFromCenter() {
 		double dx = (double)x - sim.getGridWidth()/2;
 		double dy = (double)y - sim.getGridHeight()/2;
@@ -181,7 +181,6 @@ public class Aggregator implements Steppable {
 	public void setSim(FreezingSim sim) {
 		this.sim = sim;
 	}
-	
 }
 
 // writeup: change grid size, N, toroidal vs. bounded, probabliltiy
