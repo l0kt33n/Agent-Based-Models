@@ -1,8 +1,10 @@
 package agents;
 
+import agent.Walker;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.engine.Stoppable;
+import sim.field.grid.Grid2D;
 import sim.field.grid.SparseGrid2D;
 import sim.util.Bag;
 import simulation.KHSim;
@@ -17,7 +19,8 @@ public class Agent implements Steppable {
 	private double attractiveness;		// we use a double in case we want to do fancier things later
 	private double dates = 0;			// number of dates this agent has been on
 	private boolean dated = false;		// has the agent dated in this time step?
-	private int x, y;					// agent's location in space
+	private int x, y,dirx,diry;					// agent's location in space
+
 
 	private Stoppable stopper;			// object used to stop this agent when it is no longer in the simulation
 	private KHSim sim;
@@ -36,6 +39,11 @@ public class Agent implements Steppable {
 		if (dated) {					// if someone has already dated this agent, we are done for this time step
 			return;
 		}
+		if(sim.isAggregate())
+			aggregate(sim.getSearchDistance());
+		if(sim.random.nextBoolean(sim.getpRandomMove())) 
+			randomizeMovement();
+		move();
 		Bag agents = space.allObjects;
 		Agent a = findDate(agents);
 		if (a == null) {				// if there's no one to date, we're done
@@ -43,6 +51,62 @@ public class Agent implements Steppable {
 		}
 		date(a);
 		return;
+	}
+	
+	protected void move() {
+		SparseGrid2D space = sim.acquireSpace();
+		int tempx = space.stx(x + dirx);
+		int tempy = space.sty(y + diry);
+		x = tempx;
+		y = tempy;
+		space.setObjectLocation(this, x, y);
+		return;
+	}
+
+	protected void aggregate(int r) {
+		Bag neighbors = sim.acquireSpace().getMooreNeighbors(x, y, r, Grid2D.TOROIDAL, true);
+		int threshold = (int)Math.round(sim.getChuminess()* (4 * r * r + 4 * r));
+		int count = 0;
+		double xs = 0, ys = 0;
+		for(int i = 0; i < neighbors.numObjs; i++) {
+			if(neighbors.objs[i] == null || neighbors.objs[i] == this)
+				continue;
+			Agent w = (Agent)neighbors.objs[i];
+			count++;
+			if(count >= threshold)
+				return;
+			
+			int ox = w.getX();
+			int oy = w.getY();
+			double odist = Math.sqrt((x-ox)*(x-ox)+(y-oy)*(y-oy));
+			
+			if(ox<x) 
+				xs-= 1 / odist;
+			 else if (ox > x) 
+				xs += 1 / odist;
+			if(oy<y) 
+				ys-= 1 / odist;
+			 else if (oy > y) 
+				ys += 1 / odist;
+		}
+		if(xs  <0)
+			dirx = -1;
+		else if (xs > 0)
+			dirx = 1;
+			else 
+				dirx = 0;
+		if(ys  <0)
+			diry = -1;
+		else if (ys > 0)
+			diry = 1;
+			else 
+				diry = 0;
+		return;
+	}
+	
+	protected void randomizeMovement() {
+		dirx = sim.random.nextInt(3) - 1;
+		diry = sim.random.nextInt(3) - 1;
 	}
 
 	/**
@@ -219,6 +283,22 @@ public class Agent implements Steppable {
 	 */
 	public int getY() {
 		return y;
+	}
+
+	public int getDirx() {
+		return dirx;
+	}
+
+	public void setDirx(int dirx) {
+		this.dirx = dirx;
+	}
+
+	public int getDiry() {
+		return diry;
+	}
+
+	public void setDiry(int diry) {
+		this.diry = diry;
 	}
 
 }
