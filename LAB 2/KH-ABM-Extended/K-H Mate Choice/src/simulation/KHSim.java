@@ -13,6 +13,10 @@ public class KHSim extends SimStateSparseGrid2D {
 	private double choosiness = 3;			// exponent in the probability equation: 0 makes everyone equally likely, 1 is linear, 3 is Kalick-Hamilton, higher values are choosier
 	private int maxDates = 50;				// the number of dates at which everyone becomes 100% likely to mate with one another; set to 0 to eliminate closing-time rule
 	private boolean maximize = true;		// maximize attractiveness of mate? if false, agents attempt to match attractiveness of their mate
+	protected boolean aggregate = false;
+	protected double chuminess = 0.5;
+	protected double pRandomMove = 0;
+	protected int SearchDistance = 3;
 	
 	private Observer observer;
 
@@ -51,6 +55,7 @@ public class KHSim extends SimStateSparseGrid2D {
 	 * @param female <i>true</i> for the new agent to be female
 	 * @return the new agent
 	 */
+	
 	public Agent makeAgent(boolean female) {
 		int x = random.nextInt(gridWidth);
 		int y = random.nextInt(gridHeight);
@@ -241,6 +246,48 @@ public class KHSim extends SimStateSparseGrid2D {
 	 */
 	public void setMaximize(boolean maximize) {
 		this.maximize = maximize;
+	}
+
+	public boolean isAggregate() {
+		return aggregate;
+	}
+
+	public void setAggregate(boolean aggregate) {
+		this.aggregate = aggregate;
+	}
+
+	public double getChuminess() {
+		return chuminess;
+	}
+
+	public void setChuminess(double chuminess) {
+		this.chuminess = chuminess;
+	}
+
+	public double getpRandomMove() {
+		return pRandomMove;
+	}
+
+	public void setpRandomMove(double pRandomMove) {
+		this.pRandomMove = pRandomMove;
+	}
+
+
+
+	public Observer getObserver() {
+		return observer;
+	}
+
+	public void setObserver(Observer observer) {
+		this.observer = observer;
+	}
+
+	public int getSearchDistance() {
+		return SearchDistance;
+	}
+
+	public void setSearchDistance(int searchDistance) {
+		SearchDistance = searchDistance;
 	}
 
 }
