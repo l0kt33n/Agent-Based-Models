@@ -44,7 +44,7 @@ public class Agent implements Steppable {
 		if(sim.random.nextBoolean(sim.getpRandomMove())) 
 			randomizeMovement();
 		move();
-		if(!sim.localDating)
+		if(!sim.isLocalDating())
 		{
 			Bag agents = space.allObjects;
 			Agent a = findDate(agents);
@@ -238,6 +238,8 @@ public class Agent implements Steppable {
 	 * Remove this agent from the space and the schedule so it is no longer part of the simulation.
 	 */
 	private void remove() {
+		if(sim.isReplacement()) {
+			sim.makeAgent(this.female);}
 		space.remove(this);		// out of space
 		stopper.stop();			// off the schedule
 		return;

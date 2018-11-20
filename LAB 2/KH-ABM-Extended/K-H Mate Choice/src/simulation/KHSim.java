@@ -18,7 +18,8 @@ public class KHSim extends SimStateSparseGrid2D {
 	protected double pRandomMove = 0.5;
 	protected int aggregateDistance = 3;
 	protected int searchRadius = 1;
-	public boolean localDating = true;
+	protected boolean localDating = true;
+	protected boolean replacement = true;
 	
 	private Observer observer;
 
@@ -306,6 +307,14 @@ public class KHSim extends SimStateSparseGrid2D {
 
 	public void setLocalDating(boolean localDating) {
 		this.localDating = localDating;
+	}
+
+	public boolean isReplacement() {
+		return replacement;
+	}
+
+	public void setReplacement(boolean replacement) {
+		this.replacement = replacement;
 	}
 
 }
