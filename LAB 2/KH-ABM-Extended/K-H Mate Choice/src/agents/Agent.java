@@ -40,16 +40,27 @@ public class Agent implements Steppable {
 			return;
 		}
 		if(sim.isAggregate())
-			aggregate(sim.getSearchDistance());
+			aggregate(sim.getAggregateDistance());
 		if(sim.random.nextBoolean(sim.getpRandomMove())) 
 			randomizeMovement();
 		move();
-		Bag agents = space.allObjects;
-		Agent a = findDate(agents);
-		if (a == null) {				// if there's no one to date, we're done
-			return;
+		if(!sim.localDating)
+		{
+			Bag agents = space.allObjects;
+			Agent a = findDate(agents);
+			if (a == null) {				// if there's no one to date, we're done
+				return;
+			}
+			date(a);
 		}
-		date(a);
+		else
+		{
+			Bag dates = space.getMooreNeighbors(x, y, sim.getSearchRadius(), Grid2D.TOROIDAL, true);
+			Agent a = findDate(dates);
+			if (a != null)
+				date(a);
+		}
+		
 		return;
 	}
 	
@@ -57,6 +68,13 @@ public class Agent implements Steppable {
 		SparseGrid2D space = sim.acquireSpace();
 		int tempx = space.stx(x + dirx);
 		int tempy = space.sty(y + diry);
+		Bag b = space.getObjectsAtLocation(tempx, tempy);
+		if(b!=null) {
+			dirx = -dirx;
+			diry = -diry;
+			tempx = space.stx(x+dirx);
+			tempy = space.sty(y+diry);
+		}
 		x = tempx;
 		y = tempy;
 		space.setObjectLocation(this, x, y);
@@ -141,6 +159,11 @@ public class Agent implements Steppable {
 		if (sim.getMaxDates() == 0) {
 			return probability;
 		}
+		if (dates > sim.getMaxDates())
+		{
+			return 1;
+		}
+		
 		return Math.pow(probability, (sim.getMaxDates() - dates) / sim.getMaxDates());
 	}
 

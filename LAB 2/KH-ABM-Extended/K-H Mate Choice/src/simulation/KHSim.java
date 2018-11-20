@@ -13,10 +13,12 @@ public class KHSim extends SimStateSparseGrid2D {
 	private double choosiness = 3;			// exponent in the probability equation: 0 makes everyone equally likely, 1 is linear, 3 is Kalick-Hamilton, higher values are choosier
 	private int maxDates = 50;				// the number of dates at which everyone becomes 100% likely to mate with one another; set to 0 to eliminate closing-time rule
 	private boolean maximize = true;		// maximize attractiveness of mate? if false, agents attempt to match attractiveness of their mate
-	protected boolean aggregate = false;
+	protected boolean aggregate = true;
 	protected double chuminess = 0.5;
-	protected double pRandomMove = 0;
-	protected int SearchDistance = 3;
+	protected double pRandomMove = 0.5;
+	protected int aggregateDistance = 3;
+	protected int searchRadius = 1;
+	public boolean localDating = true;
 	
 	private Observer observer;
 
@@ -282,12 +284,28 @@ public class KHSim extends SimStateSparseGrid2D {
 		this.observer = observer;
 	}
 
-	public int getSearchDistance() {
-		return SearchDistance;
+	public int getSearchRadius() {
+		return searchRadius;
 	}
 
-	public void setSearchDistance(int searchDistance) {
-		SearchDistance = searchDistance;
+	public void setSearchRadius(int searchRadius) {
+		this.searchRadius = searchRadius;
+	}
+
+	public int getAggregateDistance() {
+		return aggregateDistance;
+	}
+
+	public void setAggregateDistance(int aggregateDistance) {
+		this.aggregateDistance = aggregateDistance;
+	}
+
+	public boolean isLocalDating() {
+		return localDating;
+	}
+
+	public void setLocalDating(boolean localDating) {
+		this.localDating = localDating;
 	}
 
 }
