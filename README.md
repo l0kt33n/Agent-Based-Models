@@ -1,2 +1,1 @@
-# PSC-120
-Repo for PSC 120 ABM Class
+Minimalist Agent Based Modeling (ABM) framework based on Java
